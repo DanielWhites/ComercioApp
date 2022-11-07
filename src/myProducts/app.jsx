@@ -1,27 +1,27 @@
 export const dataProdutcs = [
   {
-    id: 1,
+    id: "MYAPPC914471357",
     title: "Espejo Con Oro",
-    thumbnail: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+    thumbnail: ""
   },
   {
-    id: 2,
+    id: "MYAPPC904401407",
     title: "Nuevo item de espejos en bronce",
-    thumbnail: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+    thumbnail: ""
   },
   {
-    id: 3,
+    id: "MYAPPC944476427",
     title: "Espejo con agua de Jupiter",
-    thumbnail: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+    thumbnail: ""
   },
   {
-    id: 4,
+    id: "MYAPPC914471853",
     title: "Espejo con lluvia de elefante",
-    thumbnail: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+    thumbnail: ""
   },
   {
-    id: 5,
+    id: "MYAPPC914475739",
     title: "Espejo con almas de mamuts",
-    thumbnail: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg"
+    thumbnail: ""
   },
 ];

@@ -2,27 +2,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-import React, { useState , useEffect} from "react";
+import React from "react";
 import "./App.css";
-import { Nav } from "./components/Nav";
-import { Products } from "./components/Products";
-import { useNavigate, useLocation } from "react-router-dom";
+
+import { Routes, Route } from "react-router-dom";
+
+import { Home } from "./pages/home/Home";
+import { Cart } from "./pages/shopping/Cart";
 
 function App() {
-  let location = useLocation();
-  const [pagination, setPagination]=useState(0)
-  //setPatination(location.pathname.split("/")[1]);
-  console.log(location.pathname.split("/")[1]);
-
-  useEffect(()=>{
-    console.log("ALGO");
-    setPagination(location.pathname.split("/")[1]);
-  })
   return (
-    <div className="App">
-      <Nav />
-      <Products paginate={pagination}/>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/:id" element={<Home />} />
+      <Route path="/cart" element={<Cart />} />
+    </Routes>
   );
 }
 

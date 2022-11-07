@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Paginator from "./Paginator";
 import { dataProdutcs } from "../myProducts/app";
-
+import noImage from "../assets/no-image.svg";
 export const Products = ({ paginate }) => {
   const path = `https://api.mercadolibre.com/sites/MLC/search?q=Espejo 75x30&offset=${paginate}`;
 
@@ -31,7 +31,16 @@ export const Products = ({ paginate }) => {
         {products?.map((product) => (
           <div className="cardProduct" key={product.id}>
             {product.title}
-            <img className="thumbnailProduct" src={product.thumbnail} alt="" />
+            {product.thumbnail ? (
+              <img
+                className="thumbnailProduct"
+                src={product.thumbnail}
+                alt=""
+              />
+            ) : (
+              <img className="thumbnailProduct" src={noImage} alt="" />
+            )}
+
             <button id="cartProduct" type="button" className="btn btn-primary">
               <i className="bi bi-cart-plus"></i> Agregar
             </button>
