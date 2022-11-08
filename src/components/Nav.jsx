@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Car } from "./Car";
 import logo from "../assets/logo.png"
 export const Nav = () => {
   return (

@@ -30,17 +30,20 @@ nav {
   display: flex;
   justify-content: center;
 }
-
+#quantityProduct,
 #cartProduct {
+  border:none;
   transition: opacity 1s ease-out;
   opacity: 0;
   height: 0;
   overflow: hidden;
 }
 
+.cardProduct:hover #quantityProduct,
 .cardProduct:hover #cartProduct {
   opacity: 1;
   height: auto;
+  border:1px solid #d4d3d3;
 }
 
 .headerLogo {
@@ -50,6 +53,6 @@ nav {
 #cartProduct {
   font-size: 12px;
 }
-.thumbnailProduct{
-max-height: 121px;
+.thumbnailProduct {
+  max-height: 121px;
 }
