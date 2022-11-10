@@ -59,17 +59,27 @@ export const Products = () => {
         setOnCart([...onCart, obj]);
         saveOnStorage(onCart);
       } else {
-        alert("estoy en está condición");
-        onCart.map((result, index) => {
+        onCart.map((result) => {
           if (result.id === obj.id) {
             let nuevacantidad = parseInt(result.quantity) + 1;
-            let updateItem = [{ ...result, quantity: nuevacantidad }];
-            
+            let updatedItem = { ...result, quantity: nuevacantidad };
+            updateItemsInCart(result.id, updatedItem);
           }
         });
-
         //el item que está agregando ya se encuentra en el carrito
       }
+    }
+  };
+
+  const updateItemsInCart = (id, item) => {
+    let rsp = onCart.filter((data) => data.id != id);
+    if (rsp === undefined) {
+      setOnCart(item);
+      saveOnStorage(onCart);
+    } else {
+      setOnCart(...rsp, item);
+      let Np = [...rsp, item];
+      saveOnStorage(Np);
     }
   };
 
@@ -141,16 +151,6 @@ export const Products = () => {
             ) : (
               <img className="thumbnailProduct" src={noImage} alt="" />
             )}
-
-            <input
-              className="form-control form-control-sm"
-              type="number"
-              id="quantityProduct"
-              name={`quantityProduct_${product.id}`}
-              min="1"
-              max="18"
-              onClick={(event) => quantityProduct(event.target.value)}
-            />
             <button
               onClick={() =>
                 handleCart({
