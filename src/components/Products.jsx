@@ -2,63 +2,140 @@ import React, { useState, useEffect } from "react";
 import Paginator from "./Paginator";
 import { dataProdutcs } from "../myProducts/app";
 import noImage from "../assets/no-image.svg";
-export const Products = ({ paginate }) => {
-  const path = `https://api.mercadolibre.com/sites/MLC/search?q=Espejo 75x30&offset=${paginate}`;
-
-  const [products, setProtudts] = useState();
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+export const Products = () => {
+  let location = useLocation();
+  let currentPag = location.pathname.split("/")[1];
   const [pagination, setPagination] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [quantityItem, setQuantityItem] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [products, setProducts] = useState();
   const [onCart, setOnCart] = useState([]);
+  const [quantityItem, setQuantityItem] = useState(1);
 
   useEffect(() => {
-    let getProduct = async () => {
-      const response = await fetch(path);
-      let products = await response.json();
-      //console.log(products.results);
-      let mergedArray = [];
-      if (paginate == 0) mergedArray = [...dataProdutcs, ...products.results];
-      else mergedArray = [...products.results];
-
-      setProtudts(mergedArray);
-      setPagination(products.paging);
-      return products.results;
-    };
-    getProduct();
-  }, [path]);
-
-  const handleCart = (obj) => {
-    console.log(obj);
-    //setOnCart([obj]);
-    if (onCart.length <= 0) {
-      console.log("Es nulo");
-      setOnCart([obj]);
+    if (currentPag === "") {
+      setCurrentPage(0);
     } else {
-      console.log("tiene data");
-      let resp = findOnCart(obj.id);
-      if (resp === undefined) {
+      setCurrentPage(currentPag);
+    }
+  });
+
+  useEffect(() => {
+    getProducts();
+  }, [currentPage]);
+
+  const getProducts = async () => {
+    if (currentPage != undefined) {
+      let resApi = await fetch(
+        `https://api.mercadolibre.com/sites/MLC/search?q=zapato&limit=10&offset=${currentPage}`
+      );
+      let products = await resApi.json();
+      let mercadoLibre = products.results;
+      let MyData = dataProdutcs;
+      combination(mercadoLibre, MyData);
+    }
+  };
+
+  const combination = (mercadoLibre, MyData) => {
+    let mergedArray = [];
+    if (currentPag == 0) {
+      mergedArray = [...MyData, ...mercadoLibre];
+    } else {
+      mergedArray = [...mercadoLibre];
+    }
+    setProducts(mergedArray);
+  };
+  const handleCart = (obj) => {
+    let haveItem = checkCart();
+    if (haveItem === 0) {
+      //primer insert
+      setOnCart([obj]);
+      saveOnStorage([obj]);
+    } else {
+      // tiene cosas en el carrito,
+      let itemInCar = checkById(obj.id);
+      if (itemInCar === undefined) {
+        //el item no se encuentra en el carro, podemos incertarlo
         setOnCart([...onCart, obj]);
+        saveOnStorage(onCart);
       } else {
-        console.log(resp);
-        let addQuantity = parseInt(obj.quantity) + parseInt(resp.quantity);
-        setOnCart([{ ...resp, quantity: addQuantity }]);
+        alert("estoy en está condición");
+        onCart.map((result, index) => {
+          //console.log(result);
+          if (result.id === obj.id) {
+            //console.log(result);
+            let nuevacantidad=parseInt(result.quantity)+1;
+            let updateItem = [{...result , quantity:nuevacantidad}]
+            //setOnCart()
+            console.log(updateItem);
+            // setOnCart([...onCart, updateItem]);
+            // saveOnStorage(onCart);
+          }
+        });
+
+        //el item que está agregando ya se encuentra en el carrito
       }
     }
   };
 
+  const checkCart = () => {
+    if (onCart.length <= 0) {
+      return 0;
+    } else {
+      return 1;
+    }
+  };
+  const checkById = (id) => {
+    return onCart.find((v) => v.id === id);
+  };
+
+  const saveOnStorage = (data) => {
+    localStorage.setItem("onCart", JSON.stringify(data));
+  };
+
+  const handleCart_ = (obj) => {
+    //check if is the first item
+    if (onCart?.length === 0) {
+      setOnCart([obj]);
+
+      saveOnStorage(obj);
+      console.log("1");
+    } else {
+      // no es el primer item, buscar en el objeto sí existe ese nuevo item
+      let resp = findOnCart(obj.id);
+      // .findIndex(obj => obj.email === email)
+      setOnCart([...onCart, obj]);
+      saveOnStorage([...onCart, obj]);
+      console.log(resp);
+    }
+  };
+
+  const saveOnStorage_ = (obj) => {
+    console.log(obj);
+    localStorage.setItem("onCart", JSON.stringify(obj));
+  };
+
   const findOnCart = (id) => {
-    console.log(id);
+    //let resp = findOnCart(obj.id);
     let dat = onCart.find((v) => v.id === id);
-    console.log(dat);
+    if (dat === undefined) {
+      setOnCart([...onCart]);
+    } else {
+      //setOnCart([...onCart]);
+      //buscar la posición en el arreglo de este item;
+    }
     return dat;
   };
 
   const quantityProduct = (value) => {
     setQuantityItem(value);
   };
-  console.log(onCart);
+  const lStorage = () => {
+    localStorage.setItem("onCart", JSON.stringify(onCart));
+  };
   return (
     <>
+      Products {currentPage}
       <div className="containerProducts">
         {products?.map((product) => (
           <div className="cardProduct" key={product.id}>
@@ -87,7 +164,7 @@ export const Products = ({ paginate }) => {
                 handleCart({
                   id: product.id,
                   title: product.title,
-                  image: product.thumbnail,
+                  thumbnail: product.thumbnail,
                   quantity: quantityItem,
                 })
               }

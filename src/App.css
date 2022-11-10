@@ -39,3 +39,14 @@
 .read-the-docs {
   color: #888;
 }
+
+.numberItem {
+  background: #dd7979;
+  border-radius: 8px;
+  height: 17px;
+  width: 17px;
+  font-size: 10px;
+  text-decoration: none;
+  text-decoration-line: none;
+  color: #fff;
+}

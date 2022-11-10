@@ -7,13 +7,14 @@ export const Home = () => {
   const [pagination, setPagination] = useState(0);
   //console.log(location.pathname);
   useEffect(() => {
+    console.log("home prueba ")
     setPagination(location.pathname.split("/")[1]);
-  });
+  },[pagination]);
 
   return (
     <div>
       <Nav />
-      {<Products paginate={pagination === "/" ? 0 : pagination} />}
+      <Products/>
     </div>
   );
 };
