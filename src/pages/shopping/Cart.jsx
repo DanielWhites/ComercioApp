@@ -14,13 +14,11 @@ export const Cart = () => {
     setItems(cartItems);
   };
   const deleteItem = (id) => {
-    console.log(id);
     let cartNewObj = items.filter((item) => {
       return item.id !== id;
     });
     localStorage.setItem("onCart", JSON.stringify(cartNewObj));
     setItems(cartNewObj);
-    console.log(cartNewObj, "N+++++++++++++UEVOOOOO");
   };
 
   return (

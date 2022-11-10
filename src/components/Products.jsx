@@ -61,15 +61,10 @@ export const Products = () => {
       } else {
         alert("estoy en está condición");
         onCart.map((result, index) => {
-          //console.log(result);
           if (result.id === obj.id) {
-            //console.log(result);
-            let nuevacantidad=parseInt(result.quantity)+1;
-            let updateItem = [{...result , quantity:nuevacantidad}]
-            //setOnCart()
-            console.log(updateItem);
-            // setOnCart([...onCart, updateItem]);
-            // saveOnStorage(onCart);
+            let nuevacantidad = parseInt(result.quantity) + 1;
+            let updateItem = [{ ...result, quantity: nuevacantidad }];
+            
           }
         });
 
@@ -99,19 +94,16 @@ export const Products = () => {
       setOnCart([obj]);
 
       saveOnStorage(obj);
-      console.log("1");
     } else {
       // no es el primer item, buscar en el objeto sí existe ese nuevo item
       let resp = findOnCart(obj.id);
       // .findIndex(obj => obj.email === email)
       setOnCart([...onCart, obj]);
       saveOnStorage([...onCart, obj]);
-      console.log(resp);
     }
   };
 
   const saveOnStorage_ = (obj) => {
-    console.log(obj);
     localStorage.setItem("onCart", JSON.stringify(obj));
   };
 

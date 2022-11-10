@@ -2,19 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 export const Nav = () => {
-  
- 
   const [total, setTotal] = useState();
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("onCart")) || [];
-    setTotal(cart.length)
-    //deleteOneItem();
+    setTotal(cart.length);
   }, [total]);
 
-  const deleteOneItem = () => {
-   // console.log(cart.length);
-  };
   return (
     <header className="containerHeader">
       <div className="headerLogo">
